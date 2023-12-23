@@ -1,0 +1,58 @@
+MultiSUBSTITUTE
+=LAMBDA(text, old_, new_, [instance_num],
+  IF(EXACT(INDEX(old_,1,1),""),
+    text,
+    if(ISOMITTED(instance_num),
+      MultiSUBSTITUTE(
+        SUBSTITUTE(text, INDEX(old_,1,1), INDEX(new_,1,1)),
+        PopStackR(old_),
+        PopStackR(new_)
+      ),
+      MultiSUBSTITUTE(
+    　  if(LAMBDA(V,AND(ISNUMBER(V),V>0))(INDEX(instance_num,1,1)),
+    　      SUBSTITUTE(text, INDEX(old_,1,1), INDEX(new_,1,1), INDEX(instance_num,1,1)),
+    　      SUBSTITUTE(text, INDEX(old_,1,1), INDEX(new_,1,1))
+    　  ),
+    　  PopStackR(old_),
+    　  PopStackR(new_),
+    　  PopStackR(instance_num)
+      )
+    )
+  )
+)
+
+PopStackR
+=LAMBDA(LIST,
+  LET(
+    thunk,  LAMBDA(X,LAMBDA(X)),
+    thunks, SCAN("",LIST,
+              LAMBDA(a,b,
+                thunk(
+                  MAKEARRAY(ROWS(LIST)-1,1,
+                    LAMBDA(r,c,LAMBDA(V,IF(ISBLANK(V),"",V))( INDEX(LIST,r+1,c)))
+                  )
+                )
+              )
+            ),
+    IFERROR(INDEX(thunks,1,1)(),"")
+  )
+)
+
+
+PopStackR.test2 (stop at any blank cell or specified number cell)
+*still break if input like MultiSUBSTITUTE(A1,D:D,E:E) don't know why
+=LAMBDA(LIST,[rn],
+  LET(
+    thunk,  LAMBDA(X,LAMBDA(X)),
+    thunks, SCAN("",LIST,
+              LAMBDA(a,b,
+                thunk(
+                  MAKEARRAY(IF(ISOMITTED(rn),IFNA(IFNA(MATCH(TRUE,ISBLANK(LIST),0)-2,MATCH("",LIST,0)-2),ROWS(LIST)-1),ROWS(LIST)-1), 1,
+                    LAMBDA(r,c,LAMBDA(V,IF(ISBLANK(V),"",V))( INDEX(LIST,r+1,c)))
+                  )
+                )
+              )
+            ),
+    IFERROR(INDEX(thunks,1,1)(),"")
+  )
+)
