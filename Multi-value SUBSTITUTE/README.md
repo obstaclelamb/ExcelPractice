@@ -1,3 +1,6 @@
+# Description
+Excel SUBSTITUTE function for multiple values.
+
 # Comparison
 ## Parameter
 EXCEL ver:
