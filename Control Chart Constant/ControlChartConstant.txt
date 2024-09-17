@@ -1,0 +1,23 @@
+c4:
+=LET(n,A3,
+  EXP(GAMMALN(n/2))*(2/(n-1))^0.5/EXP(GAMMALN((n-1)/2))
+)
+
+d2:
+=LET(n,A3,_min,-7,_max,8,dx,0.05,
+  _v, SEQUENCE(ROUND((_max-_min)/dx,0)+1,1,_min,dx),
+  _int,LAMBDA(f,x,SUM(f(x)*dx)),
+  _phi,LAMBDA(x,NORM.S.DIST(x,TRUE)),
+  _fun,LAMBDA(x,1-POWER(1-_phi(x),n)-POWER(_phi(x),n)),
+  _int(_fun,_v)
+)
+
+d3, where "C3" in the formula is the d2 value calculated by the above formula:
+=LET(n,A3,_min,-5,_max,5,dx,0.05,L,ROUND((_max-_min)/dx,0)+1,
+  _phi,LAMBDA(x,NORM.S.DIST(x,TRUE)),
+  f,LAMBDA(x,y,p,1-POWER(p(y),n)-POWER(1-p(x),n)+POWER(p(y)-p(x),n)),
+  meshf,LAMBDA(r,c,condi,LET(x,_min+c*dx,y,_min+r*dx,IF(condi,f(x,y,_phi),0))),
+  fR,MAKEARRAY(L,L,LAMBDA(r,c,meshf(r,c,r>c)*dx*dx)),
+  fL,MAKEARRAY(L,L,LAMBDA(r,c,meshf(r,c,r>=c)*dx*dx)),
+  SQRT(SUM(fR,fL)-C3^2)
+)

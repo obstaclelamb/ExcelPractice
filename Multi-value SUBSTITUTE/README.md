@@ -40,7 +40,7 @@ the resule will be `d`
 * A7: using `BIG5()` or `ASC()` function will replace them all. (It is a nightmare if you have a string include hiragana, alphabet and number all at once)
 * A8, A9: by sepecifing section in unicode can avoid this problem
 * A10: Just a fancy way to generate caesar code XD
-<img src="../Figure/MultiSUBSTITUTE_example.png">
+<img src="./Figure/MultiSUBSTITUTE_example.png">
 
 ### How to use LAMBDA
 [here](https://support.microsoft.com/en-au/office/lambda-function-bd212d27-1cd1-4321-a34a-ccbf254b8b67)
