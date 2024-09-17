@@ -104,6 +104,9 @@ The upper/lower limit here is shown below, as you can see basically when `|x|` o
 <img src="./Figure/d2n10.jpg">
 <img src="./Figure/d2n20.jpg">
 
+## Comparison
+<img src="./Figure/Control chart constant comparison.png">
+
 # Further reading
 [deriving d2 and d3](https://qcplanets.com/method/control-chart/r-control-chart-d2-d3/)
 
